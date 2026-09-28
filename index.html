@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RASYAD</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #356eb4;
+            color: #efeeee;
+            text-align: center;
+            padding: 18px 20px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
+            text-align: left;
+        }
+
+    
+
+        .f-layout {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+            gap: 0;
+            width: 100%;
+            height: calc(100vh - 74px);
+            padding: 0;
+            margin: 0;
+        }
+
+        .panel {
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, .25);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav {
+            grid-column: 1;
+            grid-row: 1 / span 3;
+            background: #494d4b;
+            border: 0;
+            align-items: flex-start;
+            justify-content: flex-start;
+            flex-direction: column;
+        }
+
+        .nav-profile {
+            width: 100%;
+            max-width: 190px;
+            align-items: center;
+            padding: 12px;
+            text-align: left;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .nav-profile img {
+            width: 60px;
+            height: 60px;
+            flex: 0 0 60px;
+            object-fit: cover;
+            object-position: center 30%;
+        }
+
+        .nav-profile-name {
+            min-width: 0;
+            font-size: 1rem;
+            line-height: 1.3;
+            overflow-wrap: anywhere;
+        }
+
+        .nav-dashboard {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 190px;
+            margin-top: 8px;
+            padding: 12px;
+            color: #fff;
+            font-size: 1rem;
+            text-decoration: none;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .nav-dashboard:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, .12);
+            text-decoration: none;
+        }
+
+
+        
+.parent {
+    display: none;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    gap: 40px;
+    padding-left: 70px;
+    margin-top: 100px;
+    
+}
+
+.parent:target {
+    display: grid;
+}
+
+.category-page,
+.loan-page,
+.logout-page {
+    display: none;
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    min-width: 0;
+    padding: 40px 48px;
+    overflow: auto;
+    color: #27323b;
+}
+
+.category-page:target,
+.loan-page:target,
+.logout-page:target {
+    display: block;
+}
+
+.category-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #d8dee3;
+}
+
+.category-eyebrow {
+    margin: 0 0 6px;
+    color: #356eb4;
+    font-size: .8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.category-heading h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.category-total {
+    padding: 8px 12px;
+    border: 1px solid #d8dee3;
+    color: #52616b;
+    font-size: .9rem;
+    white-space: nowrap;
+}
+
+.category-table-wrap {
+    overflow-x: auto;
+    background: #fff;
+}
+
+.category-table {
+    width: 100%;
+    min-width: 520px;
+    border-collapse: collapse;
+}
+
+.loan-table {
+    min-width: 900px;
+}
+
+.category-table th,
+.category-table td {
+    padding: 15px 18px;
+    border-bottom: 1px solid #e7ebee;
+    text-align: left;
+}
+
+.category-table th {
+    color: #65727b;
+    font-size: .78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.category-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.category-name {
+    font-weight: 600;
+}
+
+.category-count {
+    color: #52616b;
+    font-variant-numeric: tabular-nums;
+}
+
+.category-status {
+    color: #347a4b;
+    font-size: .9rem;
+}
+
+.loan-status {
+    display: inline-block;
+    padding: 4px 8px;
+    border: 1px solid;
+    font-size: .85rem;
+    white-space: nowrap;
+}
+
+.loan-status-borrowed {
+    border-color: #ead9a5;
+    background: #fff7df;
+    color: #80611d;
+}
+
+.loan-status-overdue {
+    border-color: #ebc9c5;
+    background: #fff0ee;
+    color: #963e37;
+}
+
+.loan-status-returned {
+    border-color: #c7dfcc;
+    background: #eff8f1;
+    color: #347a4b;
+}
+
+.books-view h2 {
+    max-width: 75%;
+    font-size: 1.25rem;
+    overflow-wrap: anywhere;
+}
+
+.book-stock {
+    position: relative;
+    top: 12px;
+    left: 30px;
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.book-icon {
+    position: absolute;
+    right: 18px;
+    bottom: 14px;
+    font-size: 2.5rem;
+    opacity: .55;
+}
+
+.logout-page:target {
+    display: grid;
+    place-items: center;
+}
+
+.logout-confirmation {
+    width: min(100%, 440px);
+    padding: 32px;
+    border: 1px solid #d8dee3;
+    background: #fff;
+}
+
+.logout-confirmation h1 {
+    margin: 0 0 10px;
+    color: #27323b;
+    font-size: 1.6rem;
+}
+
+.logout-confirmation p {
+    margin: 0;
+    color: #65727b;
+    line-height: 1.6;
+}
+
+.logout-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.logout-actions a {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 16px;
+    border: 1px solid #d8dee3;
+    color: #27323b;
+    text-decoration: none;
+}
+
+.logout-actions .logout-confirm {
+    border-color: #b83b35;
+    background: #b83b35;
+    color: #fff;
+}
+
+.logout-actions a:hover {
+    text-decoration: none;
+    filter: brightness(.95);
+}
+
+@media (max-width: 600px) {
+    .f-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        height: auto;
+        min-height: calc(100vh - 74px);
+    }
+
+    .nav {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .category-page,
+    .loan-page,
+    .logout-page {
+        grid-column: 1;
+        grid-row: 2;
+        min-height: calc(100vh - 160px);
+        padding: 24px 16px;
+    }
+
+    .category-heading h1 {
+        font-size: 1.5rem;
+    }
+
+}
+    
+.div1 {
+    grid-column: span 3 / span 3;
+    grid-row: span 3 / span 3;
+    grid-column-start: 1;
+    position: relative;
+    background-color: #5ac7ce;
+    color: white;
+}
+
+.div2 {
+    grid-column: span 3 / span 3;
+    grid-row: span 3 / span 3;
+    grid-column-start: 4;
+    position: relative;
+    background-color: rgb(4, 103, 4);
+    color: white;
+}
+
+.div3 {
+    grid-column: span 3 / span 3;
+    grid-row: span 3 / span 3;
+    grid-column-start: 1;
+    grid-row-start: 4;
+    position: relative;
+    background-color: rgb(208, 146, 13);
+    color: white;
+}
+
+.div4 {
+    grid-column: span 3 / span 3;
+    grid-row: span 3 / span 3;
+    grid-column-start: 4;
+    grid-row-start: 4;
+    position: relative;
+    background-color: rgb(183, 10, 10);
+    color: white;
+}
+
+.div5 {
+    grid-column: span 3 / span 3;
+    grid-row: span 3 / span 3;
+    grid-column-start: 1;
+    grid-row-start: 7;
+    position: relative;
+    background-color: rgb(6, 132, 17);
+    color: white;
+}
+
+.div1,
+.div2,
+.div3,
+.div4,
+.div5 {
+    min-height: 200px;
+    box-shadow: 0 6px 16px 10px rgba(0, 0, 0, .25);
+}
+
+.div1-user-image {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.div2-user-image {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.div3-user-image {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.div4-user-image {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.div5-user-image {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.parent h2 {
+    position: relative;
+    top: 10px;
+    left: 30px;
+    font-weight: 700;
+}
+        
+    </style>
+</head>
+<body>
+    <header>
+        <h3>Rasyad 11 RPL</h3>
+    </header>
+
+    <main class="f-layout">
+        <section class="panel nav" aria-label="Navigasi">
+            <div class="media nav-profile">
+                <img src="bruno.jpg" alt="Foto profil Rasyad" class="mr-3 rounded-circle">
+                <div class="media-body nav-profile-name">Rasyad</div>
+            </div>
+            <a class="nav-dashboard" href="#dashboard">
+                <i class="bi bi-house" aria-hidden="true"></i>
+                <span>Dashboard</span>
+            </a>
+            <a class="nav-dashboard" href="#kategori">
+                <i class="bi bi-tags" aria-hidden="true"></i>
+                <span>Kategori</span>
+            </a>
+            <a class="nav-dashboard" href="#buku">
+                <i class="bi bi-book" aria-hidden="true"></i>
+                <span>Buku</span>
+            </a>
+            <a class="nav-dashboard" href="#peminjaman">
+                <i class="bi bi-journal-arrow-down" aria-hidden="true"></i>
+                <span>Peminjaman</span>
+            </a>
+            <a class="nav-dashboard" href="#logout">
+                <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
+                <span>Log out</span>
+            </a>
+        </section>
+<div class="parent" id="dashboard">
+    <div class="div1">
+        <h2>500</h2>
+        <img src="user.png" alt="icon" class="div1-user-image">
+    </div>
+    <div class="div2">
+        <h2>400</h2>
+        <img src="user.png" alt="icon" class="div2-user-image">
+    </div>
+    <div class="div3">
+        <h2>90</h2>
+        <img src="bar-chart.png" alt="icon" class="div3-user-image">
+    </div>
+    <div class="div4">
+        <h2>300</h2>
+        <img src="circular-diagram.png" alt="icon" class="div4-user-image">
+    </div>
+    <div class="div5">
+        <h2>200</h2>
+        <img src="diagram.png" alt="icon" class="div5-user-image">
+     </div>
+</div>
+
+<section class="category-page" id="kategori" aria-label="Kategori buku">
+    <div class="category-heading">
+        <div>
+            <h1>Kategori Buku</h1>
+        </div>
+        <span class="category-total">5 kategori</span>
+    </div>
+    <div class="category-table-wrap">
+        <table class="category-table">
+            <thead>
+                <tr>
+                    <th scope="col">Nama kategori</th>
+                    <th scope="col">Jumlah buku</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="category-name">IPA</td>
+                    <td class="category-count">45 buku</td>
+                    <td class="category-status">Aktif</td>
+                </tr>
+                <tr>
+                    <td class="category-name">IPS</td>
+                    <td class="category-count">20 buku</td>
+                    <td class="category-status">Aktif</td>
+                </tr>
+                <tr>
+                    <td class="category-name">MATEMATIKA</td>
+                    <td class="category-count">30 buku</td>
+                    <td class="category-status">Aktif</td>
+                </tr>
+                <tr>
+                    <td class="category-name">SEJARAH</td>
+                    <td class="category-count">40 buku</td>
+                    <td class="category-status">Aktif</td>
+                </tr>
+                <tr>
+                    <td class="category-name">PKN</td>
+                    <td class="category-count">30 buku</td>
+                    <td class="category-status">Aktif</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="category-page logout-page" id="logout" aria-label="Konfirmasi keluar">
+    <div class="logout-confirmation">
+        <h1>Keluar dari akun?</h1>
+        <p>Kamu akan kembali ke halaman login.</p>
+        <div class="logout-actions">
+            <a href="#dashboard">Tidak jadi</a>
+            <a class="logout-confirm" href="login.php">
+                <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
+                Keluar
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="category-page loan-page" id="peminjaman" aria-label="Daftar peminjaman">
+    <div class="category-heading">
+        <div>
+            <p class="category-eyebrow">Aktivitas perpustakaan</p>
+            <h1>Daftar Peminjaman</h1>
+        </div>
+        <span class="category-total">5 transaksi</span>
+    </div>
+    <div class="category-table-wrap">
+        <table class="category-table loan-table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Peminjam</th>
+                    <th scope="col">Buku</th>
+                    <th scope="col">Tanggal pinjam</th>
+                    <th scope="col">Jatuh tempo</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="category-count">PJM-001</td>
+                    <td class="category-name">Rasyad</td>
+                    <td>Laskar Pelangi</td>
+                    <td>25 Des 2026</td>
+                    <td>30 Des 2026</td>
+                    <td><span class="loan-status loan-status-returned">Dikembalikan</span></td>
+                </tr>
+                <tr>
+                    <td class="category-count">PJM-002</td>
+                    <td class="category-name">Wahyu</td>
+                    <td>Bumi</td>
+                    <td>10 Des 2026</td>
+                    <td>20 Des 2026</td>
+                    <td><span class="loan-status loan-status-borrowed">Dipinjam</span></td>
+                </tr>
+                <tr>
+                    <td class="category-count">PJM-003</td>
+                    <td class="category-name">Rohit</td>
+                    <td>Bussines</td>
+                    <td>12 Des 2026</td>
+                    <td>27 Des 2026</td>
+                    <td><span class="loan-status loan-status-overdue">Terlambat</span></td>
+                </tr>
+                <tr>
+                    <td class="category-count">PJM-004</td>
+                    <td class="category-name">Janari</td>
+                    <td>Malin Kundang</td>
+                    <td>12 Des 2026</td>
+                    <td>19 Des 2026</td>
+                    <td><span class="loan-status loan-status-returned">Dikembalikan</span></td>
+                </tr>
+                <tr>
+                    <td class="category-count">PJM-005</td>
+                    <td class="category-name">Pojan</td>
+                    <td>Matematika Kelas XI</td>
+                    <td>25 Des 2026</td>
+                    <td>2 Jan 2027</td>
+                    <td><span class="loan-status loan-status-overdue">Terlambat</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="parent books-view" id="buku" aria-label="Daftar buku">
+    <div class="div1">
+        <h2>Laskar Pelangi</h2>
+        <p class="book-stock">Stok 12 buku</p>
+        <i class="bi bi-book-half book-icon" aria-hidden="true"></i>
+    </div>
+    <div class="div2">
+        <h2>Bumi</h2>
+        <p class="book-stock">Stok 8 buku</p>
+        <i class="bi bi-book book-icon" aria-hidden="true"></i>
+    </div>
+    <div class="div3">
+        <h2>Malin Kundang</h2>
+        <p class="book-stock">Stok 6 buku</p>
+        <i class="bi bi-journal-text book-icon" aria-hidden="true"></i>
+    </div>
+    <div class="div4">
+        <h2>Matematika XI</h2>
+        <p class="book-stock">Stok 15 buku</p>
+        <i class="bi bi-journal-bookmark book-icon" aria-hidden="true"></i>
+    </div>
+    <div class="div5">
+        <h2>Busines</h2>
+        <p class="book-stock">Stok 9 buku</p>
+        <i class="bi bi-book-half book-icon" aria-hidden="true"></i>
+    </div>
+</section>
+    
+    </main>
+    
+</body>
+</html>
+
